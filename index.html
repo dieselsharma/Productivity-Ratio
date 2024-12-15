@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work and Rest Timer</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="button-container">
+        <button class="button" id="start" title="Start">
+            <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Start Icon" />
+        </button>
+        <button class="button" id="reset" title="Reset">
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/undo-arrow-icon.png " alt="Reset Icon" />
+        </button>
+    </div>
+
+    <div id="ratio">
+        <p id="text">Productivity Number</p>
+        <p id="number">0.00</p>
+    </div>
+
+
+    <div id="container">
+        <div class="side" id="rest">
+            <h1>Rest</h1>
+            <p class="timer">00:00:00</p>
+        </div>
+        <div class="side" id="work">
+            <h1>Work</h1>
+            <p class="timer">00:00:00</p>
+        </div>
+    </div>
+    <!-- add scripts.js as script source -->
+     <script src="scripts.js"></script>
+</body>
+</html>

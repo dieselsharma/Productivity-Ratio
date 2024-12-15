@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+#button-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+button {
+
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    transition:height 0.5s ease;
+}
+
+button img {
+    filter: invert();
+    width: 24px;
+    height: 24px;
+}
+
+button:focus {
+    outline: none;
+}
+.button:hover{
+    width: 45px;
+    height: 45px;
+}
+.button:active{
+
+    border: 1px solid white;
+}
+
+#ratio{
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    background-color: black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* make the flex items go colums wise */
+    flex-direction: column;
+    border-radius: 15px;
+}
+#text{
+    color: white;
+}
+#number{
+    font-size: 5em;
+    color: aliceblue;
+    font-family:  'Times New Roman', Times, serif;
+
+}
+
+
+#container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#work {
+    background-color: green;
+}
+
+#rest {
+    background-color: red;
+}
+#work:active{
+    background-color: darkgreen;
+}
+#rest:active{
+    background-color: darkredconsole.log('Styles loaded');
+}
+
+
+h1 {
+    font-size: 10rem;
+    margin-bottom: 10px;
+}
+
+.timer {
+    font-family: monospace;
+    font-size: 7rem;
+}
