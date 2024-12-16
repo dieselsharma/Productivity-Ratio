@@ -8,11 +8,11 @@ const workSide = document.getElementById('work');
 const restSide = document.getElementById('rest');
 
 // Timer variables
-let workTime = 0;
-let restTime = 0;
-let timerInterval = null;
+let workTime = Number(localStorage.getItem('workTime')) || 0;
+let restTime = Number(localStorage.getItem('restTime')) || 0;
+let isWorkTimerActive = localStorage.getItem('isWorkTimerActive') === 'false' ? false : true;
+let lastTimestamp = localStorage.getItem('lastTimestamp');
 let isRunning = false;
-let isWorkTimerActive = true;
 
 // Format time to HH:MM:SS
 function formatTime(seconds) {
@@ -34,29 +34,54 @@ function updateTimerDisplay() {
     const totalTime = workTime + restTime;
     const ratio = totalTime > 0 ? (workTime / totalTime).toFixed(2) : 0;
     productivityNumber.textContent = ratio;
+
+    // Save to localStorage
+    localStorage.setItem('workTime', workTime);
+    localStorage.setItem('restTime', restTime);
+    localStorage.setItem('isWorkTimerActive', isWorkTimerActive);
 }
 
 // Start timer
 function startTimer() {
     if (!isRunning) {
         isRunning = true;
-        timerInterval = setInterval(() => {
-            if (isWorkTimerActive) {
-                workTime++;
-            } else {
-                restTime++;
-            }
-            updateTimerDisplay();
-        }, 1000);
+        lastTimestamp = Date.now();
+        localStorage.setItem('lastTimestamp', lastTimestamp);
+
+        // Update the timer periodically
+        requestAnimationFrame(updateTime);
     }
 }
 
 // Stop timer
 function stopTimer() {
     if (isRunning) {
-        clearInterval(timerInterval);
         isRunning = false;
+        const currentTime = Date.now();
+        const elapsedSeconds = Math.floor((currentTime - lastTimestamp) / 1000);
+        if (isWorkTimerActive) {
+            workTime += elapsedSeconds;
+        } else {
+            restTime += elapsedSeconds;
+        }
+        localStorage.removeItem('lastTimestamp');
+        updateTimerDisplay();
     }
+}
+
+// Update the time continuously
+function updateTime() {
+    if (!isRunning) return;
+
+    const currentTime = Date.now();
+    const elapsedSeconds = Math.floor((currentTime - lastTimestamp) / 1000);
+    if (isWorkTimerActive) {
+        workTimer.textContent = formatTime(workTime + elapsedSeconds);
+    } else {
+        restTimer.textContent = formatTime(restTime + elapsedSeconds);
+    }
+
+    requestAnimationFrame(updateTime);
 }
 
 // Reset timer
@@ -67,10 +92,6 @@ function resetTimer() {
     isWorkTimerActive = true;
     updateTimerDisplay();
 }
-
-// Event listeners
-startButton.addEventListener('click', startTimer);
-resetButton.addEventListener('click', resetTimer);
 
 // Switch between work and rest timers
 workSide.addEventListener('click', () => {
@@ -86,6 +107,25 @@ restSide.addEventListener('click', () => {
     isWorkTimerActive = false;
     startTimer();
 });
+
+// Restore timer on page load
+if (lastTimestamp) {
+    const currentTime = Date.now();
+    const elapsedSeconds = Math.floor((currentTime - lastTimestamp) / 1000);
+    if (isWorkTimerActive) {
+        workTime += elapsedSeconds;
+    } else {
+        restTime += elapsedSeconds;
+    }
+    updateTimerDisplay();
+    if (isRunning) {
+        startTimer();
+    }
+}
+
+// Event listeners
+startButton.addEventListener('click', startTimer);
+resetButton.addEventListener('click', resetTimer);
 
 // Initial display update
 updateTimerDisplay();
